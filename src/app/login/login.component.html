@@ -1,0 +1,12 @@
+<div class="container">
+    <img src="src\assets\Logo-ommp.jpeg" alt="Login Image" class="login-image">
+      <h2>Login</h2>
+      <form (ngSubmit)="onSubmit()">
+        <input type="text" placeholder="Username" [(ngModel)]="username" name="username">
+        <br>
+        <input type="password" placeholder="Password" [(ngModel)]="password" name="password">
+        <br>
+        <button type="submit">Login</button>
+      </form>
+      <a href="/forgot-password" class="forgot-password-link">Mot de passe oublié ?</a>
+    </div>
