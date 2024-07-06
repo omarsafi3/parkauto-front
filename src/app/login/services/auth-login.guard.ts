@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthServiceService } from './auth-service.service'; // Adjust path as per your project structure
+import { AuthServiceService } from './auth-service'; // Adjust path as per your project structure
 
 @Injectable({
   providedIn: 'root'

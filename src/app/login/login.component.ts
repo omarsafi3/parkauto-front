@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthServiceService } from './services/auth-service.service';
+import { AuthServiceService } from './services/auth-service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
