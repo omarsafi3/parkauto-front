@@ -1,2 +1,2 @@
-<a *ngIf="showLoginLink" routerLink="/login">Login</a>
-<router-outlet></router-outlet>
+<app-login *ngIf="!isLoggedIn"></app-login>
+<app-dashboard *ngIf="isLoggedIn"></app-dashboard>
