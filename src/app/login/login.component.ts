@@ -1,30 +1,42 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { AuthServiceService } from './services/auth-service';
+// login.component.ts
+
+import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './services/auth-service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  username: string;
+  password: string;
+  loginError: string;
+  
+  
 
-  username: string = "";
-  password: string = "";
-  constructor(@Inject(AuthServiceService) private authService: AuthServiceService) { }
+  constructor(@Inject(AuthService) public authService: AuthService, private router: Router) { 
+    localStorage.setItem("isLoggedIn", "false");
+  }
+
   ngOnInit(): void {
-  }
-  onSubmit() {
-    this.authService.login(this.username, this.password).subscribe(response => {
-      console.log(response);
-      // Handle the response here, e.g., save token, navigate to another page, etc.
-    }, error => {
-      console.error('Login failed', error);
-      // Handle the error here, e.g., show an error message
-    });
-  }
-  
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']); // Redirect to home if already logged in
+    }
   }
 
-  
-
-
+  onSubmit(): void {
+    this.authService.login(this.username, this.password).subscribe(
+      (response: any) => {
+        this.router.navigate(['/dashboard']); // Redirect to home on successful login
+        const role = this.authService.getRole();
+        console.log('Logged in as:', role);
+      },
+      (error) => {
+        console.error('Login error:', error);
+        alert('Invalid username or password');
+      }
+    );
+  }
+}

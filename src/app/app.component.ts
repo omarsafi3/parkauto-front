@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthGuard } from './login/services/auth-guard';
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,7 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   title = 'parkauto';
   showLoginLink: boolean = true;
-  isLoggedIn: boolean = sessionStorage.getItem('loggedIn') === 'true';
+  
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
