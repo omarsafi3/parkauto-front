@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../login/services/auth-service';
 import { Router } from '@angular/router';
-
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,8 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  
+  inFonction: boolean = localStorage.getItem("inFonction") === "true";
+  inBeneficiaire: boolean = localStorage.getItem("inBeneficiaire") === "true";
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) {
+   }
 
   ngOnInit(): void {
   }

@@ -1,7 +1,9 @@
 
-<div *ngIf="authService.isLoggedIn()">
-    <p>dashboard works!</p>
-    <h2>Welcome to the Dashboard</h2>
-    <button (click)="logout()">Logout</button>
-    
-  </div>
+<div *ngIf="authService.isLoggedIn()" class="dashboard-container">
+
+      <app-sidebar></app-sidebar>
+      <div class="main-content">
+        <app-beneficiaire *ngIf="inBeneficiaire"></app-beneficiaire>
+        <app-fonction *ngIf="inFonction"></app-fonction>
+      </div>
+    </div>

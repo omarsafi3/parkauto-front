@@ -1,0 +1,54 @@
+<div class="container">
+    <h2 class="mb-4">Fonctions</h2>
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Libelle</th>
+          <th scope="col">Part Pre</th>
+          <th scope="col">Part Post</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fonction of fonctions">
+          <td>{{ fonction.code }}</td>
+          <td>{{ fonction.lib }}</td>
+          <td>{{ fonction.part_pre }}</td>
+          <td>{{ fonction.part_post }}</td>
+
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="edit(fonction)">Modifier</button>
+            <button class="btn btn-sm btn-danger" (click)="delete(fonction.id)">Supprimer</button>
+          </td> 
+        </tr>
+      </tbody>
+    </table>
+  
+    <button class="btn btn-primary" (click)="add()">Ajouter</button>
+  
+    <div *ngIf="isEditing" class="edit-form">
+      <h3>{{ currentFonction.code ? 'Edit Fonction' : 'Add Fonction' }}</h3>
+      <form (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="Code">Code</label>
+          <input type="text" id="code" class="form-control" [(ngModel)]="currentFonction.code" name="code" required>
+        </div>
+        <div class="form-group">
+          <label for="Libelle">Libelle</label>
+          <input type="text" id="lib" class="form-control" [(ngModel)]="currentFonction.lib" name="lib" required>
+        </div>
+        <div class="form-group">
+          <label for="Part Pre">Part Pre</label>
+          <input type="text" id="part_pre" class="form-control" [(ngModel)]="currentFonction.part_pre" name="part_pre" required>
+        </div>
+        <div class="form-group">
+          <label for="Part Post">Part Post</label>
+          <input type="text" id="part_post" class="form-control" [(ngModel)]="currentFonction.part_post" name="part_post" required>
+        </div>
+        
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
