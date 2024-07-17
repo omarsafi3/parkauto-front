@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { BeneficiaireComponent } from './beneficiare/beneficiaire.component';
+import { BeneficiaireComponent } from './beneficiaire/beneficiaire.component';
 import { FonctionComponent } from './fonction/fonction.component';
 
 @NgModule({
