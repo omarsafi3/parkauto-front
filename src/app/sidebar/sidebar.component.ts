@@ -37,4 +37,25 @@ export class SidebarComponent implements OnInit {
     }
 
   }
+
+  toggleAssurance(): void {
+    if (localStorage.getItem("inAssurance") === "true") {
+      localStorage.setItem("inAssurance", "false");
+    }
+    else {
+      localStorage.setItem("inAssurance", "true");
+    }
+
+  }
+
+  toggleCarburant(): void {
+    if (localStorage.getItem("inCarburant") === "true") {
+      localStorage.setItem("inCarburant", "false");
+    }
+    else {
+      localStorage.setItem("inCarburant", "true");
+    }
+
+  }
+
 }

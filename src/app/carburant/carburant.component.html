@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Carburants</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Libelle</th>
+                <th scope="col">Prix Litre</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let carburant of carburants">
+                <td>{{ carburant.idc }}</td>
+                <td>{{ carburant.lib }}</td>
+                <td>{{ carburant.prix_litre }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="edit(carburant)">Modifier</button>
+                    <button class="btn btn-sm btn-danger" (click)="delete(carburant.idc)">Supprimer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" (click)="add()">Ajouter</button>
+
+    <div *ngIf="isEditing" class="edit-form">
+        <h3>{{ currentCarburant.code ? 'Edit Carburant' : 'Add Carburant' }}</h3>
+        <form (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="Libelle">Libelle</label>
+                <input type="text" id="lib" class="form-control" [(ngModel)]="currentCarburant.lib" name="lib" required>
+            </div>
+            <div class="form-group">
+                <label for="Prix Litre">Prix Litre</label>
+                <input type="text" id="prix_litre" class="form-control" [(ngModel)]="currentCarburant.prix_litre" name="prix_litre" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </form>
+    </div>
+</div>

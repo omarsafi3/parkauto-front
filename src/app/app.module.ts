@@ -9,6 +9,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BeneficiaireComponent } from './beneficiaire/beneficiaire.component';
 import { FonctionComponent } from './fonction/fonction.component';
+import { AssuranceComponent } from './assurance/assurance.component';
+import { CarburantComponent } from './carburant/carburant.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { FonctionComponent } from './fonction/fonction.component';
     DashboardComponent,
     SidebarComponent,
     BeneficiaireComponent,
-    FonctionComponent
+    FonctionComponent,
+    AssuranceComponent,
+    CarburantComponent
   ],
   imports: [
     BrowserModule,
