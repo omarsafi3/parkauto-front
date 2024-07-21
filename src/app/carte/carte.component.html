@@ -1,0 +1,40 @@
+<div class="container">
+    <h2>Cartes</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Num Carte</th>
+                <th scope="col">Nombre de Litres</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let carte of cartes">
+                <td>{{ carte.num_carte }}</td>
+                <td>{{ carte.nbr_litres }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" (click)="edit(carte)">Modifier</button>
+                    <button class="btn btn-sm btn-danger" (click)="delete(carte.id)">Supprimer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" (click)="add()">Ajouter</button>
+
+    <div *ngIf="isEditing" class="edit-form">
+        <h3>{{ currentCarte.id ? 'Edit Carte' : 'Add Carte' }}</h3>
+        <form (ngSubmit)="save()">
+            <div class="form-group">
+                <label for="Num Carte">Num Carte</label>
+                <input type="text" id="num_carte" class="form-control" [(ngModel)]="currentCarte.num_carte" name="num_carte" required>
+            </div>
+            <div class="form-group">
+                <label for="Nombre de Litres">Nombre de Litres</label>
+                <input type="text" id="nbr_litres" class="form-control" [(ngModel)]="currentCarte.nbr_litres" name="nbr_litres" required>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </form>
+    </div>
+</div>

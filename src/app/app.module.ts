@@ -11,6 +11,7 @@ import { BeneficiaireComponent } from './beneficiaire/beneficiaire.component';
 import { FonctionComponent } from './fonction/fonction.component';
 import { AssuranceComponent } from './assurance/assurance.component';
 import { CarburantComponent } from './carburant/carburant.component';
+import { CarteComponent } from './carte/carte.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CarburantComponent } from './carburant/carburant.component';
     BeneficiaireComponent,
     FonctionComponent,
     AssuranceComponent,
-    CarburantComponent
+    CarburantComponent,
+    CarteComponent
   ],
   imports: [
     BrowserModule,

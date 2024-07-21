@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   inBeneficiaire: boolean = localStorage.getItem("inBeneficiaire") === "true";
   inAssurance: boolean = localStorage.getItem("inAssurance") === "true";
   inCarburant: boolean = localStorage.getItem("inCarburant") === "true";
+  inCarte: boolean = localStorage.getItem("inCarte") === "true";
   constructor(public authService: AuthService, private router: Router) {
    }
 

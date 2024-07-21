@@ -77,6 +77,7 @@ export class FonctionComponent implements OnInit {
         }
       );
     }
+    this.isEditing = false;
   }
 
   cancel(): void {

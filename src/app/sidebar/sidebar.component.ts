@@ -58,4 +58,14 @@ export class SidebarComponent implements OnInit {
 
   }
 
+  toggleCarte(): void {
+    if (localStorage.getItem("inCarte") === "true") {
+      localStorage.setItem("inCarte", "false");
+    }
+    else {
+      localStorage.setItem("inCarte", "true");
+    }
+
+  }
+
 }
