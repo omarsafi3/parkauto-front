@@ -12,6 +12,12 @@ import { FonctionComponent } from './fonction/fonction.component';
 import { AssuranceComponent } from './assurance/assurance.component';
 import { CarburantComponent } from './carburant/carburant.component';
 import { CarteComponent } from './carte/carte.component';
+import { PortsComponent } from './ports/ports.component';
+import { VoitureComponent } from './voiture/voiture.component';
+import { DatePipe } from '@angular/common';
+import { InsuranceContractComponent } from './insurance-contract/insurance-contract.component';
+import { VignetteComponent } from './vignette/vignette.component';
+import { VisiteTechniqueComponent } from './visite-technique/visite-technique.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,12 @@ import { CarteComponent } from './carte/carte.component';
     FonctionComponent,
     AssuranceComponent,
     CarburantComponent,
-    CarteComponent
+    CarteComponent,
+    PortsComponent,
+    VoitureComponent,
+    InsuranceContractComponent,
+    VignetteComponent,
+    VisiteTechniqueComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +43,9 @@ import { CarteComponent } from './carte/carte.component';
     HttpClientModule,
   ],
 
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

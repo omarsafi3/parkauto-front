@@ -1,12 +1,9 @@
-
 <div *ngIf="authService.isLoggedIn()" class="dashboard-container">
 
-      <app-sidebar></app-sidebar>
-      <div class="main-content">
-        <app-beneficiaire *ngIf="inBeneficiaire"></app-beneficiaire>
-        <app-fonction *ngIf="inFonction"></app-fonction>
-        <app-assurance *ngIf="inAssurance"></app-assurance>
-        <app-carburant *ngIf="inCarburant"></app-carburant>
-        <app-carte *ngIf="inCarte"></app-carte>
-      </div>
-    </div>
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+    
+  </div>
+
+</div>

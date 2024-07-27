@@ -1,12 +1,39 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <div class="sidebar">
-    <ul>
-      <li><a href="#" (click)="toggleBeneficiaire()">Beneficiare</a></li>
-      <li><a href="#" (click)="toggleFonction()">Fonction</a></li>
-      <li><a href="#" (click)="toggleAssurance()">Assurance</a></li>
-      <li><a href="#" (click)="toggleCarburant()">Carburant</a></li>
-      <li><a href="#" (click)="toggleCarte()">Carte</a></li>
-      <li><a href="#">Settings</a></li>
-      <li><button (click)="logout()">Logout</button></li>
-    </ul>
+  <img src="../../assets/Logo-ommp.png" alt="Sidebar Image">
+  <h2 class="sidebar-title">OMMP</h2>
+  <h3 class="sidebar-username">{{ user }}</h3>
+  <div class="divider"></div>
+  <ul>
+    <li><a routerLink="/beneficiaire">
+      <i class="fas fa-user"></i> Beneficiaire
+    </a></li>
+    <li><a routerLink="/fonction">
+      <i class="fas fa-briefcase"></i> Fonction
+    </a></li>
+    <li><a routerLink="/assurance">
+      <i class="fas fa-shield-alt"></i> Assurance
+    </a></li>
+    <li><a routerLink="/carburant">
+      <i class="fas fa-gas-pump"></i> Carburant
+    </a></li>
+    <li><a routerLink="/carte">
+      <i class="fas fa-credit-card"></i> Carte
+    </a></li>
+    <li><a routerLink="/ports">
+      <i class="fas fa-anchor"></i> Ports
+    </a></li>
+    <li><a routerLink="/voitures">
+      <i class="fas fa-car"></i> Voiture
+    </a></li>
+    <li class="divider"></li>
+    <li><a routerLink="settings">
+      <i class="fas fa-cog"></i> Settings
+    </a></li> 
+    <li>
+      <button (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </li>
+  </ul>
 </div>
-  

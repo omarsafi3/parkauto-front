@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BeneficiaireService } from './services/beneficiaire.service';
-
+import { PortsService } from '../ports/services/ports.service';
 @Component({
   selector: 'app-beneficiaire',
   templateUrl: './beneficiaire.component.html',
@@ -8,13 +8,26 @@ import { BeneficiaireService } from './services/beneficiaire.service';
 })
 export class BeneficiaireComponent implements OnInit {
   beneficiaires: any[] = [];
+  ports: any[] = [];
   currentBeneficiaire: any = null; // for storing the beneficiaire to be edited
   isEditing: boolean = false; // flag to indicate if we are in edit mode
 
-  constructor(private beneficiaireService: BeneficiaireService) { }
+  constructor(private portsService: PortsService, private beneficiaireService: BeneficiaireService) { }
 
   ngOnInit(): void {
     this.loadBeneficiaires();
+    this.loadPorts();
+  }
+
+  loadPorts(): void {
+    this.portsService.getPorts().subscribe(
+      (data: any[]) => {
+        this.ports = data;
+      },
+      (error: any) => {
+        console.error('Error loading ports', error);
+      }
+    );
   }
 
   loadBeneficiaires(): void {
@@ -91,4 +104,10 @@ export class BeneficiaireComponent implements OnInit {
     this.isEditing = false;
     this.currentBeneficiaire = null;
   }
+
+  getPortName(portId: string): any {
+    return this.ports.find(port => port.id === portId) || '';
+  }
+
+  
 }

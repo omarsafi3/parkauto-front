@@ -1,0 +1,140 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Voitures</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Immat</th>
+                <th scope="col">Type</th>
+                <th scope="col">Fonction</th>
+                <th scope="col">Age</th>
+                <th scope="col">Mise en route</th>
+                <th scope="col">Puissance</th>
+                <th scope="col">Carburant</th>
+                <th scope="col">Prix</th>
+                <th scope="col">GPS</th>
+                <th scope="col">Actions</th>
+                <th scope="col">Contrats</th>
+                <th scope="col">Assurance</th>
+                <th scope="col">Vignette</th>
+                <th scope="col">Visite Technique</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let voiture of voitures">
+                <td>{{ voiture.immat }}</td>
+                <td>{{ voiture.type }}</td>
+                <td>{{ voiture.fonction }}</td>
+                <td>{{ voiture.age }}</td>
+                <td>{{ voiture.mise_en_route | date }}</td>
+                <td>{{ voiture.puissance }}</td>
+                <td>{{ voiture.carburant }}</td>
+                <td>{{ voiture.prix | currency : 'TND' }}</td>
+                <td>{{ voiture.gps }}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary mb-2" (click)="edit(voiture)">Modifier</button>
+                    <button class="btn btn-sm btn-danger mb-2" (click)="delete(voiture.immat)">Supprimer</button>
+                </td>
+                <td>
+                    <button *ngIf="!hasInsurance(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addInsuranceContract(voiture.immat)">Add Insurance Contract</button>
+                    <button *ngIf="hasInsurance(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="editInsuranceContract(voiture.immat)">Edit Insurance Contract</button>
+                    <button *ngIf="hasInsurance(voiture.immat)" class="btn btn-sm btn-danger mb-2" (click)="deleteInsuranceContract(getInsuranceContract(voiture.immat).idc)">Delete Insurance Contract</button>
+                    <button *ngIf="!hasVignette(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addVignette(voiture.immat)">Add Vignette</button>
+                    <button *ngIf="!hasVisiteTechnique(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addVisiteTechnique(voiture.immat)">Add Visite Technique</button>
+                </td>
+                <td *ngIf="hasInsurance(voiture.immat)">
+                    <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleDetails(voiture.immat)">
+                        {{ isDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Insurance Details
+                    </button>
+                    <div *ngIf="isDetailsVisible(voiture.immat)" class="border p-2">
+                        <p><strong>Date Start:</strong> {{ getInsuranceContract(voiture.immat).date_deb | date }}</p>
+                        <p><strong>Date End:</strong> {{ getInsuranceContract(voiture.immat).date_fin | date }}</p>
+                        <p><strong>Cost:</strong> {{ getInsuranceContract(voiture.immat).cout | currency : 'TND' }}</p>
+                        <p><strong>Type:</strong> {{ getInsuranceContract(voiture.immat).type }}</p>
+                        <p><strong>Insurance Name:</strong> {{ getInsuranceName(getInsuranceContract(voiture.immat).ida).lib }}</p>
+                    </div>
+                </td>
+                <td *ngIf="hasVignette(voiture.immat)">
+                    <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleVignette(voiture.immat)">
+                        {{ isVignetteDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Vignette Details
+                    </button>
+                    <div *ngIf="isVignetteDetailsVisible(voiture.immat)" class="border p-2">
+                        <p><strong>Date Start:</strong> {{ getVignette(voiture.immat).date_deb | date }}</p>
+                        <p><strong>Date End:</strong> {{ getVignette(voiture.immat).date_fin | date }}</p>
+                        <p><strong>Cost:</strong> {{ getVignette(voiture.immat).cout | currency : 'TND' }}</p>
+                        <p><strong>Status:</strong> {{ getVignette(voiture.immat).status }}</p>
+                        <button *ngIf="!paidVignette(getVignette(voiture.immat))" class="btn btn-sm btn-success" (click)="payVignette(getVignette(voiture.immat))">Pay</button>
+                        <button *ngIf="paidVignette(getVignette(voiture.immat))" class="btn btn-sm btn-info mb-2" (click)="addVignette(voiture.immat)">Add Vignette</button>
+                    </div>
+                </td>
+                <td *ngIf="hasVisiteTechnique(voiture.immat)">
+                    <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleVisiteTechnique(voiture.immat)">
+                        {{ isVisiteTechniqueDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Visite Technique Details
+                    </button>
+                    <div *ngIf="isVisiteTechniqueDetailsVisible(voiture.immat)" class="border p-2">
+                        <p><strong>Date Start:</strong> {{ getVisiteTechnique(voiture.immat).date_deb | date }}</p>
+                        <p><strong>Date End:</strong> {{ getVisiteTechnique(voiture.immat).date_fin | date }}</p>
+                        <p><strong>Cost:</strong> {{ getVisiteTechnique(voiture.immat).cout | currency : 'TND' }}</p>
+                        <p><strong>Status:</strong> {{ getVisiteTechnique(voiture.immat).status }}</p>
+                        <button *ngIf="!paidVisiteTechnique(getVisiteTechnique(voiture.immat))" class="btn btn-sm btn-success" (click)="payVisiteTechnique(getVisiteTechnique(voiture.immat))">Pay</button>
+                        <button *ngIf="paidVisiteTechnique(getVisiteTechnique(voiture.immat))" class="btn btn-sm btn-info mb-2" (click)="addVisiteTechnique(voiture.immat)">Add Visite Technique</button>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" (click)="add()">Ajouter</button>
+
+    <div *ngIf="isEditing" class="mt-4">
+        <h3>{{ currentVoiture.immat ? 'Edit Voiture' : 'Add Voiture' }}</h3>
+        <form (ngSubmit)="save()">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="immat">Immatriculation</label>
+                    <input type="text" id="immat" class="form-control" [(ngModel)]="currentVoiture.immat" name="immat" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="type">Type</label>
+                    <input type="text" id="type" class="form-control" [(ngModel)]="currentVoiture.type" name="type" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="fonction">Fonction</label>
+                    <input type="text" id="fonction" class="form-control" [(ngModel)]="currentVoiture.fonction" name="fonction" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" class="form-control" [(ngModel)]="currentVoiture.age" name="age" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="mise_en_route">Mise en route</label>
+                    <input type="date" id="mise_en_route" class="form-control" [(ngModel)]="currentVoiture.mise_en_route" name="mise_en_route" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="puissance">Puissance</label>
+                    <input type="number" id="puissance" class="form-control" [(ngModel)]="currentVoiture.puissance" name="puissance" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="carburant">Carburant</label>
+                    <input type="text" id="carburant" class="form-control" [(ngModel)]="currentVoiture.carburant" name="carburant" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="prix">Prix</label>
+                    <input type="number" id="prix" class="form-control" [(ngModel)]="currentVoiture.prix" name="prix" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gps">GPS</label>
+                <input type="text" id="gps" class="form-control" [(ngModel)]="currentVoiture.gps" name="gps" required>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </form>
+    </div>
+</div>

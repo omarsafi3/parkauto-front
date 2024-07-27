@@ -11,7 +11,7 @@ export class CarteComponent implements OnInit {
   currentCarte: any = null; // for storing the carte to be edited
   isEditing: boolean = false; // flag to indicate if we are in edit mode
 
-  constructor(private carteService: CarteService) { }
+  constructor(private carteService: CarteService, ) { }
 
   ngOnInit(): void {
     this.loadCartes();

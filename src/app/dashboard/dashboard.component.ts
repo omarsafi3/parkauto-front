@@ -10,11 +10,6 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class DashboardComponent implements OnInit {
   
-  inFonction: boolean = localStorage.getItem("inFonction") === "true";
-  inBeneficiaire: boolean = localStorage.getItem("inBeneficiaire") === "true";
-  inAssurance: boolean = localStorage.getItem("inAssurance") === "true";
-  inCarburant: boolean = localStorage.getItem("inCarburant") === "true";
-  inCarte: boolean = localStorage.getItem("inCarte") === "true";
   constructor(public authService: AuthService, private router: Router) {
    }
 

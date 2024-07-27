@@ -1,0 +1,30 @@
+<div class="container mt-4">
+    <h2 class="mb-4">{{ isEditing ? 'Edit Vignette' : 'Add Vignette' }}</h2>
+    <form (ngSubmit)="save()">
+        <div class="form-group">
+            <label for="date_deb">Start Date</label>
+            <input type="date" id="date_deb" class="form-control" [(ngModel)]="vignette.date_deb" name="date_deb" required>
+        </div>
+        <div class="form-group">
+            <label for="date_fin">End Date</label>
+            <input type="date" id="date_fin" class="form-control" [(ngModel)]="vignette.date_fin" name="date_fin" required>
+        </div>
+        <div class="form-group">
+            <label for="cout">Cost</label>
+            <input type="number" id="cout" class="form-control" [(ngModel)]="vignette.cout" name="cout" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-select" id="status" name="status" [(ngModel)]="vignette.status" required>
+                <option value="payé">Payé</option>
+                <option value="non payé">Non Payé</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="immat">Vehicle Immat</label>
+            <input type="text" id="immat" class="form-control" [(ngModel)]="vignette.immat" name="immat" [readonly]="true">
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+</div>

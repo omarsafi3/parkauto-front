@@ -22,6 +22,7 @@ export class AuthService {
         if (response.token && response.role) {
           this.setToken(response.token);
           this.setRole(response.role);
+          this.setUser(username);
         }
       }),
       catchError((error) => {
@@ -41,6 +42,14 @@ export class AuthService {
 
   setRole(role: string) {
     localStorage.setItem('role', role);
+  }
+
+  setUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getUser(): any {
+    return localStorage.getItem('user');
   }
 
   getRole(): string {
