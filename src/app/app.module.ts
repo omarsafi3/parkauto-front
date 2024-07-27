@@ -18,6 +18,7 @@ import { DatePipe } from '@angular/common';
 import { InsuranceContractComponent } from './insurance-contract/insurance-contract.component';
 import { VignetteComponent } from './vignette/vignette.component';
 import { VisiteTechniqueComponent } from './visite-technique/visite-technique.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { VisiteTechniqueComponent } from './visite-technique/visite-technique.co
     InsuranceContractComponent,
     VignetteComponent,
     VisiteTechniqueComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

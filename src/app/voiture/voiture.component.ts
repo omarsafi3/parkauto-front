@@ -98,7 +98,7 @@ export class VoitureComponent implements OnInit {
     this.isEditing = true;
   }
 
-  delete(id: number): void {
+  delete(id: string): void {
     this.voitureService.deleteVoiture(id).subscribe(
       (response: any) => {
         console.log('Voiture deleted:', response);

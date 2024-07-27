@@ -14,7 +14,7 @@ export class VoitureService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  getVoiture(id: number): any {
+  getVoiture(id: string): any {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
@@ -26,7 +26,7 @@ export class VoitureService {
     return this.http.put<any>(`${this.apiUrl}/${voiture.immat}`, voiture);
   }
 
-  deleteVoiture(id: number): any {
+  deleteVoiture(id: string): any {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
