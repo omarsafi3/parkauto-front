@@ -1,0 +1,116 @@
+.min-vh-100 {
+    min-height: 100vh;
+  }
+  
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .card-title {
+    color: #343a40;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .form-control {
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+
+  @media print {
+    .dashboard-container {
+      width: 100%;
+      padding: 0;
+    }
+    .container {
+      margin: 0;
+      padding: 0;
+    }
+    .table-responsive {
+      overflow: visible;
+    }
+  }
+
+  .printable-section {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 20px;
+  }
+  
+  .printable-section .logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .printable-section .card {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .printable-section .card-header {
+    border-bottom: 2px solid #007bff;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .printable-section .card-title {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .printable-section .card-body p {
+    margin: 10px 0;
+  }
+  
+  .printable-section .card-body p strong {
+    display: inline-block;
+    width: 150px;
+  }
+  
+  .printable-section .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .logo {
+    max-width: 200px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  .container {
+    padding: 0;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  .display-3 {
+    color: #007bff; /* Primary Bootstrap color, adjust as needed */
+  }
+  
+  .display-4 {
+    color: #343a40; /* Dark color for contrast */
+  }
+  
+  

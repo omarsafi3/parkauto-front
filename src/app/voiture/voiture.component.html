@@ -17,6 +17,8 @@
                 <th scope="col">Assurance</th>
                 <th scope="col">Vignette</th>
                 <th scope="col">Visite Technique</th>
+                <th scope="col">Maintenance</th>
+                <th scope="col">Historique</th>
             </tr>
         </thead>
         <tbody>
@@ -36,14 +38,13 @@
                 </td>
                 <td>
                     <button *ngIf="!hasInsurance(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addInsuranceContract(voiture.immat)">Add Insurance Contract</button>
-                    <button *ngIf="hasInsurance(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="editInsuranceContract(voiture.immat)">Edit Insurance Contract</button>
                     <button *ngIf="hasInsurance(voiture.immat)" class="btn btn-sm btn-danger mb-2" (click)="deleteInsuranceContract(getInsuranceContract(voiture.immat).idc)">Delete Insurance Contract</button>
                     <button *ngIf="!hasVignette(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addVignette(voiture.immat)">Add Vignette</button>
                     <button *ngIf="!hasVisiteTechnique(voiture.immat)" class="btn btn-sm btn-info mb-2" (click)="addVisiteTechnique(voiture.immat)">Add Visite Technique</button>
                 </td>
                 <td *ngIf="hasInsurance(voiture.immat)">
                     <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleDetails(voiture.immat)">
-                        {{ isDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Insurance Details
+                        {{ isDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Asssurance Details
                     </button>
                     <div *ngIf="isDetailsVisible(voiture.immat)" class="border p-2">
                         <p><strong>Date Start:</strong> {{ getInsuranceContract(voiture.immat).date_deb | date }}</p>
@@ -52,6 +53,9 @@
                         <p><strong>Type:</strong> {{ getInsuranceContract(voiture.immat).type }}</p>
                         <p><strong>Insurance Name:</strong> {{ getInsuranceName(getInsuranceContract(voiture.immat).ida).lib }}</p>
                     </div>
+                </td>
+                <td *ngIf="!hasInsurance(voiture.immat)">
+                    <p>No Insurance</p>
                 </td>
                 <td *ngIf="hasVignette(voiture.immat)">
                     <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleVignette(voiture.immat)">
@@ -66,6 +70,9 @@
                         <button *ngIf="paidVignette(getVignette(voiture.immat))" class="btn btn-sm btn-info mb-2" (click)="addVignette(voiture.immat)">Add Vignette</button>
                     </div>
                 </td>
+                <td *ngIf="!hasVignette(voiture.immat)">
+                    <p>No Vignette</p>
+                </td>
                 <td *ngIf="hasVisiteTechnique(voiture.immat)">
                     <button class="btn btn-sm btn-info mb-2" type="button" (click)="toggleVisiteTechnique(voiture.immat)">
                         {{ isVisiteTechniqueDetailsVisible(voiture.immat) ? 'Hide' : 'Show' }} Visite Technique Details
@@ -78,7 +85,16 @@
                         <button *ngIf="!paidVisiteTechnique(getVisiteTechnique(voiture.immat))" class="btn btn-sm btn-success" (click)="payVisiteTechnique(getVisiteTechnique(voiture.immat))">Pay</button>
                         <button *ngIf="paidVisiteTechnique(getVisiteTechnique(voiture.immat))" class="btn btn-sm btn-info mb-2" (click)="addVisiteTechnique(voiture.immat)">Add Visite Technique</button>
                     </div>
-
+                </td>
+                <td *ngIf="!hasVisiteTechnique(voiture.immat)">
+                    <p>No Visite Technique</p>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-info mb-2" (click)="addMaintenance(voiture.immat)">Add Maintenance</button>
+                    <button class="btn btn-sm btn-info mb-2" (click)="showMaintenances(voiture.immat)">Show Maintenances</button>
+                </td>
+                <td>
+                    <p *ngFor="let historique of showBeneficiaireHistoriquePerImmat(voiture.immat)">{{ historique.nom }} {{ historique.prenom }}</p>
                 </td>
             </tr>
         </tbody>

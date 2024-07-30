@@ -11,6 +11,8 @@
         <th scope="col">Num Carte</th>
         <th scope="col">Code</th>
         <th scope="col">Port</th>
+        <th scope="col">Immat</th>
+        <th scope="col">Transactions</th>
         <th scope="col">Actions</th>
 
       </tr>
@@ -23,8 +25,14 @@
         <td>{{ beneficiaire.date_deb }}</td>
         <td>{{ beneficiaire.date_fin }}</td>
         <td>{{ beneficiaire.num_carte }}</td>
-        <td>{{ beneficiaire.code }}</td>
+        <td>{{ getFonctionsName(beneficiaire.code).lib }}</td>
         <td> {{ getPortName(beneficiaire.port_id).lib }}</td>
+        <td>{{ beneficiaire.immat }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="doTransaction(beneficiaire)">Faire Transactions</button>
+          <button class="btn btn-sm btn-success" (click)="showTransactions(beneficiaire)">Voir Transactions</button>
+        </td>
+
         <td>
           <button class="btn btn-sm btn-primary" (click)="edit(beneficiaire)">Modifier</button>
           <button class="btn btn-sm btn-danger" (click)="delete(beneficiaire.idb)">Supprimer</button>
@@ -48,19 +56,28 @@
           required>
       </div>
       <div class="form-group">
-        <label for="date_deb">Date Debut</label>
-        <input type="date" id="date_deb" class="form-control" [(ngModel)]="currentBeneficiaire.date_deb" name="date_deb"
-          required>
-      </div>
-      <div class="form-group">
-        <label for="date_fin">Date Fin</label>
-        <input type="date" id="date_fin" class="form-control" [(ngModel)]="currentBeneficiaire.date_fin" name="date_fin"
-          required>
-      </div>
-      <div class="form-group">
         <label for="num_carte">Num Carte</label>
-        <input type="text" id="num_carte" class="form-control" [(ngModel)]="currentBeneficiaire.num_carte"
-          name="num_carte" required>
+        <select class="form-select" aria-label="Select a carte" name="num_carte" [(ngModel)]="currentBeneficiaire.num_carte">
+          <option *ngFor="let carte of filterCardsWithNoBeneficiary(beneficiaires,cartes)" [value]="carte.num_carte">
+            {{ carte.num_carte }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="code">Fonction</label>
+        <select class="form-select" aria-label="Fonction" name="code" [(ngModel)]="currentBeneficiaire.code">
+          <option *ngFor="let fonction of fonctions" [value]="fonction.code">
+            {{ fonction.lib }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="immat">Vehicle Immat</label>
+        <select class="form-select" aria-label="Select a vehicle" name="immat" [(ngModel)]="currentBeneficiaire.immat">
+          <option *ngFor="let voiture of voitures" [value]="voiture.immat">
+            {{ voiture.immat }}
+          </option>
+        </select>
       </div>
       <div class="form-group">
         <label for="code">Port</label>

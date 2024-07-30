@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { VoitureService } from '../voiture/services/voiture.service';
-import { PortsService } from '../ports/services/ports.service';
 import { AdminService } from './services/admin.service';
+import { Admin } from './admin.model';
 
 @Component({
   selector: 'app-admin',
@@ -9,239 +8,70 @@ import { AdminService } from './services/admin.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  admins: any[] = [];
-  voitures: any[] = [];
-  ports: any[] = [];
-  
-  currentAdmin: any = null;
-  currentVoiture: any = null;
-  currentPort: any = null;
+  admins: Admin[] = [];
+  newAdmin: Admin = { id: 0, username: '', password: '', role: '' };
+  selectedAdmin: Admin | null = null;
 
-  isEditingAdmin: boolean = false;
-  isEditingVoiture: boolean = false;
-  isEditingPort: boolean = false;
-
-  constructor(
-    private adminService: AdminService,
-    private voitureService: VoitureService,
-    private portsService: PortsService
-  ) { }
+  constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
-    this.loadAdmins();
-    this.loadVoitures();
-    this.loadPorts();
-  }
-
-  loadAdmins(): void {
     this.adminService.getAdmins().subscribe(
-      (data: any[]) => {
-        this.admins = data;
+      (data) => {
+        if (data && Array.isArray(data)) {
+          this.admins = data;
+          // Correcting the usage here, assuming selectedAdmin has the id you want to match
+          const selectedId = this.selectedAdmin?.id ?? 0; // Default to 0 if selectedAdmin or id is null/undefined
+          const index = this.admins.findIndex(admin => admin && admin.id === selectedId);
+          console.log('Index found:', index);
+        } else {
+          console.warn('Data is not an array or is undefined');
+        }
       },
-      (error: any) => {
-        console.error('Error loading admins', error);
+      (error) => {
+        console.error('Error fetching admins', error);
       }
     );
   }
 
-  loadVoitures(): void {
-    this.voitureService.getVoitures().subscribe(
-      (data: any[]) => {
-        this.voitures = data;
-      },
-      (error: any) => {
-        console.error('Error loading voitures', error);
-      }
-    );
+  loadAdmins() {
+    this.adminService.getAdmins().subscribe(data => {
+      this.admins = data;
+    });
   }
 
-  loadPorts(): void {
-    this.portsService.getPorts().subscribe(
-      (data: any[]) => {
-        this.ports = data;
-      },
-      (error: any) => {
-        console.error('Error loading ports', error);
-      }
-    );
+  selectAdmin(admin: Admin) {
+    this.selectedAdmin = { ...admin }; // Clone the admin to avoid direct mutation
   }
 
-  // Admin CRUD Operations
-  editAdmin(admin: any): void {
-    this.currentAdmin = { ...admin };
-    this.isEditingAdmin = true;
+  createAdmin() {
+    this.adminService.createAdmin(this.newAdmin).subscribe(data => {
+      this.admins.push(data);
+      this.newAdmin = { id: 0, username: '', password: '', role: '' };
+    });
+  }
+
+  updateAdmin() {
+    if (this.selectedAdmin) {
+      this.adminService.updateAdmin(this.selectedAdmin).subscribe(data => {
+        const index = this.admins.findIndex(a => a.id === data.id);
+        if (index !== -1) {
+          this.admins[index] = data;
+        }
+        this.selectedAdmin = null;
+      });
+    }
   }
 
   deleteAdmin(id: number): void {
     this.adminService.deleteAdmin(id).subscribe(
-      (response: any) => {
-        console.log('Admin deleted:', response);
-        this.loadAdmins();
+      (response) => {
+        console.log('Admin deleted', response);
+        this.admins = this.admins.filter(admin => admin.id !== id); // Update the local list
       },
-      (error: any) => {
-        console.error('Error deleting admin', error);
-      }
+      (error) => console.error('Error deleting admin', error)
     );
   }
-
-  addAdmin(): void {
-    this.currentAdmin = {
-      id: null,
-      username: '',
-      email: '',
-      role: ''
-    };
-    this.isEditingAdmin = true;
-  }
-
-  saveAdmin(): void {
-    if (this.currentAdmin.id) {
-      this.adminService.updateAdmin(this.currentAdmin).subscribe(
-        (response: any) => {
-          console.log('Admin updated:', response);
-          this.loadAdmins();
-          this.isEditingAdmin = false;
-        },
-        (error: any) => {
-          console.error('Error updating admin', error);
-        }
-      );
-    } else {
-      this.adminService.createAdmin(this.currentAdmin).subscribe(
-        (response: any) => {
-          console.log('Admin created:', response);
-          this.loadAdmins();
-          this.isEditingAdmin = false;
-        },
-        (error: any) => {
-          console.error('Error creating admin', error);
-        }
-      );
-    }
-  }
-
-  cancelAdmin(): void {
-    this.isEditingAdmin = false;
-    this.currentAdmin = null;
-  }
-
-  // Voiture CRUD Operations
-  editVoiture(voiture: any): void {
-    this.currentVoiture = { ...voiture };
-    this.isEditingVoiture = true;
-  }
-
-  deleteVoiture(immat: string): void {
-    this.voitureService.deleteVoiture(immat).subscribe(
-      (response: any) => {
-        console.log('Voiture deleted:', response);
-        this.loadVoitures();
-      },
-      (error: any) => {
-        console.error('Error deleting voiture', error);
-      }
-    );
-  }
-
-  addVoiture(): void {
-    this.currentVoiture = {
-      immat: '',
-      type: '',
-      age: null,
-      mise_en_route: '',
-      puissance: null,
-      carburant: '',
-      prix: null,
-      gps: false
-    };
-    this.isEditingVoiture = true;
-  }
-
-  saveVoiture(): void {
-    if (this.currentVoiture.immat) {
-      this.voitureService.updateVoiture(this.currentVoiture).subscribe(
-        (response: any) => {
-          console.log('Voiture updated:', response);
-          this.loadVoitures();
-          this.isEditingVoiture = false;
-        },
-        (error: any) => {
-          console.error('Error updating voiture', error);
-        }
-      );
-    } else {
-      this.voitureService.createVoiture(this.currentVoiture).subscribe(
-        (response: any) => {
-          console.log('Voiture created:', response);
-          this.loadVoitures();
-          this.isEditingVoiture = false;
-        },
-        (error: any) => {
-          console.error('Error creating voiture', error);
-        }
-      );
-    }
-  }
-
-  cancelVoiture(): void {
-    this.isEditingVoiture = false;
-    this.currentVoiture = null;
-  }
-
-  // Port CRUD Operations
-  editPort(port: any): void {
-    this.currentPort = { ...port };
-    this.isEditingPort = true;
-  }
-
-  deletePort(id: number): void {
-    this.portsService.deletePort(id).subscribe(
-      (response: any) => {
-        console.log('Port deleted:', response);
-        this.loadPorts();
-      },
-      (error: any) => {
-        console.error('Error deleting port', error);
-      }
-    );
-  }
-
-  addPort(): void {
-    this.currentPort = {
-      id: null,
-      lib: ''
-    };
-    this.isEditingPort = true;
-  }
-
-  savePort(): void {
-    if (this.currentPort.id) {
-      this.portsService.updatePort(this.currentPort).subscribe(
-        (response: any) => {
-          console.log('Port updated:', response);
-          this.loadPorts();
-          this.isEditingPort = false;
-        },
-        (error: any) => {
-          console.error('Error updating port', error);
-        }
-      );
-    } else {
-      this.portsService.createPort(this.currentPort).subscribe(
-        (response: any) => {
-          console.log('Port created:', response);
-          this.loadPorts();
-          this.isEditingPort = false;
-        },
-        (error: any) => {
-          console.error('Error creating port', error);
-        }
-      );
-    }
-  }
-
-  cancelPort(): void {
-    this.isEditingPort = false;
-    this.currentPort = null;
+  clearSelection() {
+    this.selectedAdmin = null;
   }
 }

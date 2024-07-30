@@ -21,16 +21,23 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']); // Redirect to home if already logged in
+    if (this.authService.isLoggedIn() && this.authService.getRole() === 'superAdmin') {
+      this.router.navigate(['/beneficiaire']); // Redirect to home if already logged in
+    } else if (this.authService.isLoggedIn() && this.authService.getRole() === 'user') {
+      this.router.navigate(['/ordre-mission']); // Redirect to home if already logged in
     }
   }
 
   onSubmit(): void {
     this.authService.login(this.username, this.password).subscribe(
       (response: any) => {
-        this.router.navigate(['/dashboard']); // Redirect to home on successful login
+         // Redirect to home on successful login
         const role = this.authService.getRole();
+        if (role === 'superAdmin') {
+          this.router.navigate(['/beneficiaire']);
+        } else if (role === 'user') {
+          this.router.navigate(['/ordre-mission']);
+        }
         console.log('Logged in as:', role);
       },
       (error) => {

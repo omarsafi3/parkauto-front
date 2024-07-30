@@ -1,0 +1,189 @@
+<div *ngIf="role === 'user'" class="d-flex justify-content-center align-items-center min-vh-150">
+  <div class="card w-10">
+    <div class="card-body p-5">
+      <h2 class="card-title mb-4 text-center">{{ isEditing ? 'Edit Ordre de Mission' : 'Add Ordre de Mission' }}</h2>
+      <form (ngSubmit)="onSubmit()" #ordreForm="ngForm">
+        <div class="form-group">
+          <label for="employeSelect">Chauffeur</label>
+          <select class="form-control" id="employeSelect" [(ngModel)]="ordre.employe_id" name="employe_id" required>
+            <option *ngFor="let employe of getBeneficiaireWithCode('21')" [value]="employe.idb">{{ employe.nom }} {{ employe.prenom }}</option>
+          </select>
+          <div *ngIf="ordreForm.submitted && !ordre.employe_id" class="text-danger">Chauffeur is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="objectif">Objectif</label>
+          <input type="text" class="form-control" id="objectif" [(ngModel)]="ordre.objectif" name="objectif" required>
+          <div *ngIf="ordreForm.submitted && !ordre.objectif" class="text-danger">Objectif is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="dateDep">Date de départ</label>
+          <input type="date" class="form-control" id="dateDep" [(ngModel)]="ordre.date_dep" name="date_dep" required (change)="validateDates()">
+          <div *ngIf="ordreForm.submitted && !ordre.date_dep" class="text-danger">Date de départ is required.</div>
+          <div *ngIf="datesInvalid" class="text-danger">Date de départ must be before Date d'arrivée.</div>
+        </div>
+        <div class="form-group">
+          <label for="dateArr">Date de arrivée</label>
+          <input type="date" class="form-control" id="dateArr" [(ngModel)]="ordre.date_arr" name="date_arr" required (change)="validateDates()">
+          <div *ngIf="ordreForm.submitted && !ordre.date_arr" class="text-danger">Date d'arrivée is required.</div>
+          <div *ngIf="datesInvalid" class="text-danger">Date de départ must be before Date d'arrivée.</div>
+        </div>
+        <div class="form-group">
+          <label for="trajet">Trajet</label>
+          <input type="text" class="form-control" id="trajet" [(ngModel)]="ordre.trajet" name="trajet" required>
+          <div *ngIf="ordreForm.submitted && !ordre.trajet" class="text-danger">Trajet is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="courrier">Courrier</label>
+          <input type="text" class="form-control" id="courrier" [(ngModel)]="ordre.courrier" name="courrier" required>
+          <div *ngIf="ordreForm.submitted && !ordre.courrier" class="text-danger">Courrier is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="accompagnant">Accompagnant</label>
+          <input type="text" class="form-control" id="accompagnant" [(ngModel)]="ordre.accompagnant" name="accompagnant" required>
+          <div *ngIf="ordreForm.submitted && !ordre.accompagnant" class="text-danger">Accompagnant is required.</div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">{{ isEditing ? 'Update' : 'Submit' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="isEditing">Cancel</button>
+        </div>
+      </form>
+      <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="role === 'superAdmin'" class="dashboard-container">
+  <div class="container mt-4">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Employe</th>
+            <th>Objectif</th>
+            <th>Date de départ</th>
+            <th>Date d'arrivée</th>
+            <th>Trajet</th>
+            <th>Courrier</th>
+            <th>Accompagnant</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ordre of ordresDeMission">
+            <td>{{ getBeneficiaireName(ordre.employe_id) }}</td>
+            <td>{{ ordre.objectif }}</td>
+            <td>{{ ordre.date_dep | date }}</td>
+            <td>{{ ordre.date_arr | date }}</td>
+            <td>{{ ordre.trajet }}</td>
+            <td>{{ ordre.courrier }}</td>
+            <td>{{ ordre.accompagnant }}</td>
+            <td>
+              <span [ngClass]="{'text-success': ordre.status === 'confirmée', 'text-danger': ordre.status !== 'confirmée'}">{{ ordre.status }}</span>
+            </td>
+            <td>
+              <button *ngIf="ordre.status !== 'confirmée'" class="btn btn-primary btn-sm" (click)="confirm(ordre)">Confirmer</button>
+              <button class="btn btn-danger btn-sm" (click)="delete(ordre)">Supprimer</button>
+              <button class="btn btn-warning btn-sm" (click)="edit(ordre)">Modifier</button>
+              <!-- View & Print Button -->
+              <button class="btn btn-success btn-sm" (click)="viewAndPrintOrdre(ordre)">View & Print</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="printable-section d-none">
+  <div class="container mt-4">
+    <div class="container mt-4 text-center">
+      <img src="../../assets/Logo-ommp.png" alt="logo" class="logo mb-4">
+      <h1 class="display-3 font-weight-bold mb-2">OMMP</h1>
+      <h1 class="display-4 font-weight-light">Ordre de Mission</h1>
+    </div>
+    
+    <div class="card border-primary mb-3">
+      <div class="card-header text-center bg-primary text-white">
+       
+        <h2 class="card-title mb-0">{{ ordre?.objectif }}</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Chauffeur:</strong> {{ getBeneficiaireName(ordre?.employe_id) }}</p>
+            <p><strong>Date de départ:</strong> {{ ordre?.date_dep | date }}</p>
+            <p><strong>Date d'arrivée:</strong> {{ ordre?.date_arr | date }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Trajet:</strong> {{ ordre?.trajet }}</p>
+            <p><strong>Courrier:</strong> {{ ordre?.courrier }}</p>
+            <p><strong>Accompagnant:</strong> {{ ordre?.accompagnant }}</p>
+            <p><strong>Status:</strong> <span [ngClass]="{'text-success': ordre?.status === 'confirmée', 'text-danger': ordre?.status !== 'confirmée'}">{{ ordre?.status }}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div *ngIf="isEditing" class="d-flex justify-content-center align-items-center min-vh-150">
+  <div class="card w-10">
+    <div class="card-body p-5">
+      <h2 class="card-title mb-4 text-center">{{ isEditing ? 'Edit Ordre de Mission' : 'Add Ordre de Mission' }}</h2>
+      <form (ngSubmit)="onSubmit()" #ordreForm="ngForm">
+        <div class="form-group">
+          <label for="employeSelect">Chauffeur</label>
+          <select class="form-control" id="employeSelect" [(ngModel)]="ordre.employe_id" name="employe_id" required>
+            <option *ngFor="let employe of getBeneficiaireWithCode('21')" [value]="employe.idb">{{ employe.nom }} {{ employe.prenom }}</option>
+          </select>
+          <div *ngIf="ordreForm.submitted && !ordre.employe_id" class="text-danger">Chauffeur is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="objectif">Objectif</label>
+          <input type="text" class="form-control" id="objectif" [(ngModel)]="ordre.objectif" name="objectif" required>
+          <div *ngIf="ordreForm.submitted && !ordre.objectif" class="text-danger">Objectif is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="dateDep">Date de départ</label>
+          <input type="date" class="form-control" id="dateDep" [(ngModel)]="ordre.date_dep" name="date_dep" required (change)="validateDates()">
+          <div *ngIf="ordreForm.submitted && !ordre.date_dep" class="text-danger">Date de départ is required.</div>
+          <div *ngIf="datesInvalid" class="text-danger">Date de départ must be before Date d'arrivée.</div>
+        </div>
+        <div class="form-group">
+          <label for="dateArr">Date de arrivée</label>
+          <input type="date" class="form-control" id="dateArr" [(ngModel)]="ordre.date_arr" name="date_arr" required (change)="validateDates()">
+          <div *ngIf="ordreForm.submitted && !ordre.date_arr" class="text-danger">Date d'arrivée is required.</div>
+          <div *ngIf="datesInvalid" class="text-danger">Date de départ must be before Date d'arrivée.</div>
+        </div>
+        <div class="form-group">
+          <label for="trajet">Trajet</label>
+          <input type="text" class="form-control" id="trajet" [(ngModel)]="ordre.trajet" name="trajet" required>
+          <div *ngIf="ordreForm.submitted && !ordre.trajet" class="text-danger">Trajet is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="courrier">Courrier</label>
+          <input type="text" class="form-control" id="courrier" [(ngModel)]="ordre.courrier" name="courrier" required>
+          <div *ngIf="ordreForm.submitted && !ordre.courrier" class="text-danger">Courrier is required.</div>
+        </div>
+        <div class="form-group">
+          <label for="accompagnant">Accompagnant</label>
+          <input type="text" class="form-control" id="accompagnant" [(ngModel)]="ordre.accompagnant" name="accompagnant" required>
+          <div *ngIf="ordreForm.submitted && !ordre.accompagnant" class="text-danger">Accompagnant is required.</div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">{{ isEditing ? 'Update' : 'Submit' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="isEditing">Cancel</button>
+        </div>
+      </form>
+      <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+    </div>
+  </div>
+</div>
+

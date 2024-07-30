@@ -1,0 +1,59 @@
+<div *ngIf="isAdding" class="container mt-4">
+    <h2 class="mb-4">Maintenance</h2>
+    <form (ngSubmit)="save()">
+        <div class="form-group">
+            <label for="typem">Type Maintenance</label>
+            <input type="text" id="typem" class="form-control" [(ngModel)]="maintenance.typem" name="typem" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="form-control" [(ngModel)]="maintenance.description" name="coutm" required>
+        </div>
+        <div class="form-group">
+            <label for="cout">Cout</label>
+            <input type="number" id="cout" class="form-control" [(ngModel)]="maintenance.cout" name="coutm" required>
+        </div>  
+        <div class="form-group">
+            <label for="datem">Date</label>
+            <input type="date" id="date" class="form-control" [(ngModel)]="maintenance.datem" name="date" required>
+        </div>
+        <div class="form-group">
+            <label for="garage">Garage</label>
+            <input type="text" id="garage" class="form-control" [(ngModel)]="maintenance.garage" name="garage" required>
+        </div>
+        <div class="form-group">
+            <label for="immat">Vehicle Immat</label>
+            <input type="text" id="immat" class="form-control" [(ngModel)]="maintenance.immat" name="immat" [readonly]="true">
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+</div>
+
+<div *ngIf="!isAdding" class="container mt-4">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Type Maintenance</th>
+            <th scope="col">Description</th>
+            <th scope="col">Cout</th>
+            <th scope="col">Date</th>
+            <th scope="col">Garage</th>
+            <th scope="col">Vehicle Immat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let maintenance of maintenances">
+            <td>{{ maintenance.typem }}</td>
+            <td>{{ maintenance.description }}</td>
+            <td>{{ maintenance.cout }}</td>
+            <td>{{ maintenance.datem }}</td>
+            <td>{{ maintenance.garage }}</td>
+            <td>{{ maintenance.immat }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

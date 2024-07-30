@@ -19,18 +19,21 @@ body, html {
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .login-image {
     width: 100%;
     height: 150px;
-    object-fit: cover;
+    object-fit: cover; /* Ensures the image covers the container without distortion */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 .login-content {
     padding: 30px;
+    flex: 1; /* Ensures content takes up remaining space */
 }
 
 .login-title {

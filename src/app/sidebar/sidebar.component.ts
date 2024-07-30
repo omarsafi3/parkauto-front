@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
   user: string = localStorage.getItem('user');
+  role: string = localStorage.getItem('role');
+  isUser = this.role === 'user';
   constructor(@Inject(AuthService) public authService: AuthService, private router: Router) { 
   }
 

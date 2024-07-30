@@ -1,0 +1,62 @@
+<div *ngIf="isAdding">
+    <div class="container mt-4">
+      <h2 class="mb-4">Add Transaction</h2>
+      <form (ngSubmit)="save()">
+        <div class="form-group">
+          <label for="kilometrage">Kilometrage</label>
+          <input type="number" id="kilometrage" class="form-control" [(ngModel)]="transaction.kilometrage" name="kilometrage" required>
+        </div>
+        <div class="form-group">
+          <label for="nbr_litres">Nombre De Litres</label>
+          <input type="number" id="nbr_litres" class="form-control" [(ngModel)]="transaction.montant" name="montant" required>
+        </div>
+        <div class="form-group">
+          <label for="datet">Date</label>
+          <input type="date" id="datet" class="form-control" [(ngModel)]="transaction.datet" name="datet" required>
+        </div>
+        <div class="form-group">
+          <label for="station">Station</label>
+          <input type="text" id="station" class="form-control" [(ngModel)]="transaction.station" name="station" required>
+        </div>
+        <div class="form-group">
+          <label for="idc">Carburant</label>
+          <select id="idc" class="form-select" [(ngModel)]="transaction.idc" name="idc" required>
+            <option *ngFor="let carburant of carburants" [value]="carburant.idc">{{ carburant.lib }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
+  <div *ngIf="!isAdding">
+    <div class="container mt-4">
+      <h2 class="mb-4">Transactions</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+            <th scope="col">Num Carte</th>
+              <th scope="col">Kilometrage</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Date</th>
+              <th scope="col">Station</th>
+              <th scope="col">Carburant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of getTransactionsForNumCarte(num_carte)">
+                <td>{{ num_carte }}</td>
+              <td>{{ transaction.kilometrage }}</td>
+              <td>{{ transaction.montant }}</td>
+              <td>{{ transaction.datet }}</td>
+              <td>{{ transaction.station }}</td>
+              <td>{{ getCarburantNamefromId(transaction.idc).lib }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

@@ -6,6 +6,8 @@ import { AssuranceContractService } from './services/assurance-contract.service'
 import { AssuranceService } from '../assurance/services/assurance.service';
 import { VignetteService } from '../vignette/services/vignette.service';
 import { VisiteTechniqueService } from './services/visite-technique.service';
+import { HistoriqueService } from './services/historique.service';
+import { BeneficiaireService } from '../beneficiaire/services/beneficiaire.service';
 
 @Component({
   selector: 'app-voiture',
@@ -18,6 +20,8 @@ export class VoitureComponent implements OnInit {
   existingAssurance: any[] = [];
   vignettes: any[] = [];
   visiteTechniques: any[] = [];
+  historiques: any[] = [];
+  beneficiaires: any[] = [];
   currentVoiture: any = null; // for storing the voiture to be edited
   isEditing: boolean = false; // flag to indicate if we are editing
   detailsVisible: Set<string> = new Set();
@@ -30,6 +34,8 @@ export class VoitureComponent implements OnInit {
     private visiteTechniquesService: VisiteTechniqueService,
     private assuranceContractService: AssuranceContractService,
     private voitureService: VoitureService,
+    private historiqueService: HistoriqueService,
+    private beneficiaireService: BeneficiaireService,
     private datePipe: DatePipe,
     private router: Router
   ) {}
@@ -47,6 +53,19 @@ export class VoitureComponent implements OnInit {
     this.loadVoitures();
     this.loadAssuranceContracts();
     this.loadVisiteTechniques();
+    this.loadHistroique();
+    this.loadBeneficiaires();
+  }
+
+  loadBeneficiaires(): void {
+    this.beneficiaireService.getBeneficiaires().subscribe(
+      (data: any[]) => {
+        this.beneficiaires = data;
+      },
+      (error: any) => {
+        console.error('Error loading beneficiaires', error);
+      }
+    );
   }
 
   loadVisiteTechniques(): void {
@@ -67,6 +86,17 @@ export class VoitureComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error loading vignettes', error);
+      }
+    );
+  }
+
+  loadHistroique(): void {
+    this.historiqueService.getHistorique().subscribe(
+      (data: any[]) => {
+        this.historiques = data;
+      },
+      (error: any) => {
+        console.error('Error loading historique', error);
       }
     );
   }
@@ -186,8 +216,6 @@ export class VoitureComponent implements OnInit {
     }
   }
 
-  
-
   toggleVisiteTechnique(immat: string): void {
     if (this.visiteTechniqueVisible.has(immat)) {
       this.visiteTechniqueVisible.delete(immat);
@@ -197,23 +225,26 @@ export class VoitureComponent implements OnInit {
   }
 
   getVignette(immat: string): any {
-    return this.vignettes
-      .filter((vignette) => vignette.immat === immat)
-      .sort(
-        (a, b) =>
-          new Date(b.date_fin).getTime() - new Date(a.date_fin).getTime()
-      )[0] || null;
+    return (
+      this.vignettes
+        .filter((vignette) => vignette.immat === immat)
+        .sort(
+          (a, b) =>
+            new Date(b.date_fin).getTime() - new Date(a.date_fin).getTime()
+        )[0] || null
+    );
   }
-  
+
   getVisiteTechnique(immat: string): any {
-    return this.visiteTechniques
-      .filter((visiteTechnique) => visiteTechnique.immat === immat)
-      .sort(
-        (a, b) =>
-          new Date(b.date_fin).getTime() - new Date(a.date_fin).getTime()
-      )[0] || null;
+    return (
+      this.visiteTechniques
+        .filter((visiteTechnique) => visiteTechnique.immat === immat)
+        .sort(
+          (a, b) =>
+            new Date(b.date_fin).getTime() - new Date(a.date_fin).getTime()
+        )[0] || null
+    );
   }
-  
 
   toggleDetails(immat: string): void {
     if (this.detailsVisible.has(immat)) {
@@ -305,7 +336,11 @@ export class VoitureComponent implements OnInit {
           this.loadVisiteTechniques();
           this.confirmAction(
             'Do you want to register a Visite Technique for this voiture?',
-            () => this.router.navigate(['/add-visite-technique', visiteTechnique.immat])
+            () =>
+              this.router.navigate([
+                '/add-visite-technique',
+                visiteTechnique.immat,
+              ])
           );
         },
         (error: any) => {
@@ -320,6 +355,27 @@ export class VoitureComponent implements OnInit {
 
   paidVisiteTechnique(visiteTechnique: any): boolean {
     return visiteTechnique.status === 'payée';
+  }
+
+  addMaintenance(immat: string): void {
+    this.router.navigate(['/add-maintenance', immat]);
+  }
+
+  showMaintenances(immat: string): void {
+    this.router.navigate(['/maintenances', immat]);
+  }
+
+  showHistoriquePerImmat(immat: string): any[] {
+    return this.historiques.filter((historique) => historique.immat === immat);
+  }
+
+  showBeneficiaireHistoriquePerImmat(immat: string): any[] {
+    const filteredHistoriques = this.showHistoriquePerImmat(immat);
+    return this.beneficiaires.filter((beneficiaire) =>
+      filteredHistoriques.some(
+        (historique) => historique.idb === beneficiaire.idb
+      )
+    );
   }
 
   deleteInsuranceContract(idc: number): void {

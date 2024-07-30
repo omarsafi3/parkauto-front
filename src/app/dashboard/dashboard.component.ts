@@ -9,11 +9,19 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  isUser = localStorage.getItem('role') === 'user';
+  isSuperAdmin = localStorage.getItem('role') === 'superAdmin';
   
   constructor(public authService: AuthService, private router: Router) {
    }
 
+  
+
   ngOnInit(): void {
+    console.log('Role:', localStorage.getItem('role'));
+    console.log(this.isSuperAdmin);
+    
   }
   logout(): void {
     this.authService.logout(); // clear token
