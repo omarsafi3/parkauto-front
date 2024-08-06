@@ -18,7 +18,6 @@ import { DatePipe } from '@angular/common';
 import { InsuranceContractComponent } from './insurance-contract/insurance-contract.component';
 import { VignetteComponent } from './vignette/vignette.component';
 import { VisiteTechniqueComponent } from './visite-technique/visite-technique.component';
-import { AdminComponent } from './admin/admin.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { UsersComponent } from './users/users.component';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -40,7 +39,6 @@ import { OrdreMissionComponent } from './ordre-mission/ordre-mission.component';
     InsuranceContractComponent,
     VignetteComponent,
     VisiteTechniqueComponent,
-    AdminComponent,
     MaintenanceComponent,
     UsersComponent,
     TransactionsComponent,
