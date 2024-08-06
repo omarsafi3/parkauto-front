@@ -6,8 +6,6 @@ Welcome to the Automated Vehicle Fleet Management System! This Angular-based fro
 
 - [Features](#features)
 - [Technologies](#technologies)
-- [Installation](#installation)
-- [API Endpoints](#api-endpoints)
 - [License](#license)
 - [Contact](#contact)
 
@@ -28,46 +26,6 @@ Welcome to the Automated Vehicle Fleet Management System! This Angular-based fro
 - **RxJS**: For reactive programming.
 - **HTML/CSS**: Markup and styling.
 
-## Installation
-
-### Prerequisites
-
-- Node.js and npm installed.
-- Angular CLI installed globally.
-
-## API Endpoints
-
-### Authentication
-
-- **POST /api/auth/login**: Authenticate a user.
-
-### Vehicles
-
-- **GET /api/vehicles**: Get a list of all vehicles.
-- **POST /api/vehicles**: Add a new vehicle.
-- **PUT /api/vehicles/{id}**: Update a vehicle.
-- **DELETE /api/vehicles/{id}**: Delete a vehicle.
-
-### Users
-
-- **GET /api/users**: Get a list of all users.
-- **POST /api/users**: Add a new user.
-- **PUT /api/users/{id}**: Update a user.
-- **DELETE /api/users/{id}**: Delete a user.
-
-### Maintenance
-
-- **GET /api/maintenance**: Get a list of all maintenance records.
-- **POST /api/maintenance**: Add a new maintenance record.
-- **PUT /api/maintenance/{id}**: Update a maintenance record.
-- **DELETE /api/maintenance/{id}**: Delete a maintenance record.
-
-### Fuel
-
-- **GET /api/fuel**: Get a list of all fuel records.
-- **POST /api/fuel**: Add a new fuel record.
-- **PUT /api/fuel/{id}**: Update a fuel record.
-- **DELETE /api/fuel/{id}**: Delete a fuel record.
 
 ### License
 
